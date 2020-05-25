@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/board")
+@RequestMapping("/api/conta")
 @CrossOrigin
 public class ClienteControlador {
 
@@ -63,13 +63,13 @@ public class ClienteControlador {
         return clienteServico.findAll();
     }
 
-    @GetMapping("/{numeroConta}")
+    @GetMapping("/{numeroDaConta}")
     public ResponseEntity<?> encontrarClientePorNumeroDaConta(@PathVariable int numeroDaConta) {
         Cliente cliente = clienteServico.encontrarClientePelaConta(numeroDaConta);
         return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{numeroConta}")
+    @DeleteMapping("/{numeroDaConta}")
     public ResponseEntity<?> deletarClientePorNumeroDaConta(@PathVariable int numeroDaConta) {
         clienteServico.delete(numeroDaConta);
         return new ResponseEntity<String>("Conta Deletada", HttpStatus.OK);

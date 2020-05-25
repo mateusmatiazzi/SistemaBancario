@@ -52,7 +52,11 @@ public class Cliente {
         this.nomeDoResponsavel = nomeDoResponsavel;
     }
 
-    public int getSaldo(int saldo){
-        return this.saldo;
+    public int getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
     }
 }
