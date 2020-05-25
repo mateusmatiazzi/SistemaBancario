@@ -47,7 +47,9 @@ public class ClienteServico {
         return clienteRepositorio.save(cliente);
     }
 
-    public void delete(Long id) {
+    public void delete(int numeroDaConta) {
+        Cliente cliente = encontrarClientePelaConta(numeroDaConta);
+        long id = cliente.getId();
         clienteRepositorio.deleteById(id);
     }
 }
