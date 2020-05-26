@@ -11,28 +11,27 @@ public class ClienteServico {
     @Autowired
     private ClienteRepositorio clienteRepositorio;
 
-    public void realizaDeposito(int contaDoCliente, int valorASerDepositado){
+    public void realizarDeposito(int contaDoCliente, int valorASerDepositado){
         Cliente cliente = encontrarClientePelaConta(contaDoCliente);
-        cliente.realizaDeposito(valorASerDepositado);
-        salvaDadosDoCliente(cliente);
+        cliente.realizarDeposito(valorASerDepositado);
+        salvarDadosDoCliente(cliente);
     }
 
-    public void realizaSaque(int contaDoCliente, int valorASerSacado){
+    public void realizarSaque(int contaDoCliente, int valorASerSacado){
         Cliente cliente = encontrarClientePelaConta(contaDoCliente);
-        cliente.realizaSaque(valorASerSacado);
-        salvaDadosDoCliente(cliente);
+        cliente.realizarSaque(valorASerSacado);
+        salvarDadosDoCliente(cliente);
     }
 
-    public void realizaTransferencia(int contaDoClienteATransferir, int contaDoClienteAReceber, int valorASerTransferido){
+    public void realizarTransferencia(int valorASerTransferido, int contaDoClienteATransferir, int contaDoClienteAReceber){
         Cliente clienteATransferir = encontrarClientePelaConta(contaDoClienteATransferir);
         Cliente clienteAReceber = encontrarClientePelaConta(contaDoClienteAReceber);
 
-        clienteATransferir.realizaSaque(valorASerTransferido);
-        clienteAReceber.realizaDeposito(valorASerTransferido);
-        //registrar transferencia
+        clienteATransferir.realizarTransferencia(valorASerTransferido, contaDoClienteAReceber);
+        clienteAReceber.receberTransferencia(valorASerTransferido, contaDoClienteATransferir);
 
-        salvaDadosDoCliente(clienteATransferir);
-        salvaDadosDoCliente(clienteAReceber);
+        salvarDadosDoCliente(clienteATransferir);
+        salvarDadosDoCliente(clienteAReceber);
     }
 
     public Iterable<Cliente> findAll() {
@@ -43,11 +42,11 @@ public class ClienteServico {
         return clienteRepositorio.getByNumeroDaConta(numeroDaConta);
     }
 
-    public Cliente salvaDadosDoCliente (Cliente cliente){
+    public Cliente salvarDadosDoCliente(Cliente cliente){
         return clienteRepositorio.save(cliente);
     }
 
-    public void delete(int numeroDaConta) {
+    public void deletarConta(int numeroDaConta) {
         Cliente cliente = encontrarClientePelaConta(numeroDaConta);
         long id = cliente.getId();
         clienteRepositorio.deleteById(id);

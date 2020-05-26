@@ -32,21 +32,21 @@ public class ClienteControlador {
             return new ResponseEntity<Map<String, String>>(errorMap, HttpStatus.BAD_REQUEST);
         }
 
-        Cliente novoCliente = clienteServico.salvaDadosDoCliente(cliente);
+        Cliente novoCliente = clienteServico.salvarDadosDoCliente(cliente);
         return new ResponseEntity<Cliente>(novoCliente, HttpStatus.CREATED);
     }
 
     @PostMapping("/{numeroDaConta}+{valor}")
     public ResponseEntity<?> realizarDepositoParaUmCliente(@PathVariable int numeroDaConta, @PathVariable int valor){
         Cliente cliente = clienteServico.encontrarClientePelaConta(numeroDaConta);
-        clienteServico.realizaDeposito(numeroDaConta, valor);
+        clienteServico.realizarDeposito(numeroDaConta, valor);
         return new ResponseEntity<Cliente>(cliente, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/{numeroDaConta}-{valor}")
     public ResponseEntity<?> realizarSaqueParaUmCliente(@PathVariable int numeroDaConta, @PathVariable int valor){
         Cliente cliente = clienteServico.encontrarClientePelaConta(numeroDaConta);
-        clienteServico.realizaSaque(numeroDaConta, valor);
+        clienteServico.realizarSaque(numeroDaConta, valor);
         return new ResponseEntity<Cliente>(cliente, HttpStatus.ACCEPTED);
     }
 
@@ -54,7 +54,7 @@ public class ClienteControlador {
     public ResponseEntity<?> realizarUmaTransferenciaDeUmClienteParaOutro(@PathVariable int numeroDaContaATransferir,
                                                                           @PathVariable int numeroDaContaAReceber,
                                                                           @PathVariable int valor){
-        clienteServico.realizaTransferencia(numeroDaContaATransferir, numeroDaContaAReceber, valor);
+        clienteServico.realizarTransferencia(valor, numeroDaContaATransferir, numeroDaContaAReceber);
         return new ResponseEntity<String>("Valor transferido", HttpStatus.ACCEPTED);
     }
 
@@ -71,7 +71,7 @@ public class ClienteControlador {
 
     @DeleteMapping("/{numeroDaConta}")
     public ResponseEntity<?> deletarClientePorNumeroDaConta(@PathVariable int numeroDaConta) {
-        clienteServico.delete(numeroDaConta);
+        clienteServico.deletarConta(numeroDaConta);
         return new ResponseEntity<String>("Conta Deletada", HttpStatus.OK);
     }
 }

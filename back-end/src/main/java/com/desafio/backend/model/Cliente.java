@@ -1,9 +1,6 @@
 package com.desafio.backend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Cliente {
@@ -15,17 +12,31 @@ public class Cliente {
     private int numeroDaConta;
     private String nomeDoResponsavel;
     private int saldo;
+    //@OneToOne(cascade= CascadeType.PERSIST)
+    //private Extrato extrato;
 
 
-    public Cliente() {
+    protected Cliente() {
     }
 
-    public void realizaSaque(int valorASerSacado){
+    public void realizarSaque(int valorASerSacado){
         saldo -= valorASerSacado;
+        //extrato.adicionarSaque(valorASerSacado, numeroDaConta);
     }
 
-    public void realizaDeposito(int valorASerDepositado){
+    public void realizarDeposito(int valorASerDepositado){
         saldo += valorASerDepositado;
+        //extrato.adicionarDeposito(valorASerDepositado, numeroDaConta);
+    }
+
+    public void realizarTransferencia(int valorASerTransferido, int contaDestino){
+        saldo -= valorASerTransferido;
+        //extrato.adicionarTransferencia(valorASerTransferido, numeroDaConta, contaDestino);
+    }
+
+    public void receberTransferencia(int valorASerTransferido, int contaProvedora){
+        saldo += valorASerTransferido;
+        //extrato.adicionarTransferencia(valorASerTransferido, contaProvedora, numeroDaConta);
     }
 
     public Long getId() {
