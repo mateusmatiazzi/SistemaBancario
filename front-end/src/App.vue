@@ -30,7 +30,7 @@
             <td>{{ cliente.saldo }}</td>
             <td>
               <button @click="depositar(cliente.numeroDaConta, valorASerMovimentado)" class="waves-effect btn-small green darken-1">Depositar</button>
-              <button class="waves-effect btn-small blue darken-1">Sacar</button>
+              <button @click="sacar(cliente.numeroDaConta, valorASerMovimentado)" class="waves-effect btn-small blue darken-1">Sacar</button>
               <button class="waves-effect btn-small coral darken-1">Transferir</button>
               <button @click="deletar(cliente.numeroDaConta)" class="waves-effect btn-small red darken-1">Deletar</button>
               <input v-if="mostraInputDeMovimentacao" v-model="valorASerMovimentado" placeholder="Valor a ser Depositado">
@@ -85,6 +85,12 @@ export default {
     depositar(numeroDaConta, valorASerDepositado){
       this.mostraInputDeMovimentacao = !this.mostraInputDeMovimentacao
       Cliente.depositar(numeroDaConta, valorASerDepositado).then(() => {this.listar()}).catch(e => console.log(e))
+      this.valorASerMovimentado = 0
+    },
+
+    sacar(numeroDaConta, valorASerSacado){
+      this.mostraInputDeMovimentacao = !this.mostraInputDeMovimentacao
+      Cliente.sacar(numeroDaConta, valorASerSacado).then(() => {this.listar()}).catch(e => console.log(e))
       this.valorASerMovimentado = 0
     }
   }

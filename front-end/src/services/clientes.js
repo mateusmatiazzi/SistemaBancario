@@ -11,5 +11,9 @@ export default	{
 
     depositar:(numeroDaConta, valorASerDepositado)=>{
         return http.post('/' + numeroDaConta + '+' + valorASerDepositado)
+    },
+
+    sacar:(numeroDaConta, valorASerSacado) => {
+        return http.post('/' + numeroDaConta + '-' + valorASerSacado)
     }
 }
