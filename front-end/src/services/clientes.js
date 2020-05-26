@@ -19,5 +19,9 @@ export default	{
 
     transferir:(numeroDaContaATransferir, numeroDaContaAReceber, valorASerMandado)=>{
         return http.post('/' + numeroDaContaATransferir + '/' + numeroDaContaAReceber + '/' + valorASerMandado)
+    },
+
+    adicionarCliente:(cliente)=>{
+        return http.post('/', cliente)
     }
 }

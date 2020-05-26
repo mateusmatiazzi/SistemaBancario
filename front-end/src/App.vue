@@ -4,11 +4,25 @@
 
     <nav>
       <div class="nav-wrapper blue darken-1">
-        <a href="#" class="brand-logo center">Lista de Contas</a>
+        <a href="#" class="brand-logo center">Contas Bancárias</a>
       </div>
     </nav>
 
     <div class="container">
+
+      <form @submit.prevent="adicionarCliente(clienteASerCadastrado)">
+
+          <label>Nome do responsavel</label>
+          <input type="text" placeholder="Nome do responsavel" v-model="clienteASerCadastrado.nomeDoResponsavel" >
+          <label>Saldo da conta</label>
+          <input type="number" placeholder="Saldo da conta" v-model="clienteASerCadastrado.saldo" >
+          <label>Número da conta</label>
+          <input type="text" placeholder="Número da conta" v-model="clienteASerCadastrado.numeroDaConta" >
+
+          <button class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
+
+      </form>
+
       <table>
         <thead>
 
@@ -54,8 +68,7 @@ export default {
   name: 'App',
   data () {
     return {
-      cliente:{
-        id: '',
+      clienteASerCadastrado:{
         nomeDoResponsavel: '',
         saldo: '',
         numeroDaConta: ''
@@ -103,6 +116,14 @@ export default {
       Cliente.transferir(numeroDaContaATransferir, numeroDaContaAReceber, valorASerMandado).then(() => {this.listar()}).catch(e=>console.log(e))
       this.valorASerMovimentado = null
       this.numeroDaContaBeneficiada = null
+    },
+
+    adicionarCliente(cliente){
+          Cliente.adicionarCliente(cliente).then(() => {
+            this.cliente = {}
+            alert('Cadastrado com sucesso!')
+            this.listar()
+            }).catch( e => console.log(e))
     }
   }
 }
