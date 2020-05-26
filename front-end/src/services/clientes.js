@@ -15,5 +15,9 @@ export default	{
 
     sacar:(numeroDaConta, valorASerSacado) => {
         return http.post('/' + numeroDaConta + '-' + valorASerSacado)
+    },
+
+    transferir:(numeroDaContaATransferir, numeroDaContaAReceber, valorASerMandado)=>{
+        return http.post('/' + numeroDaContaATransferir + '/' + numeroDaContaAReceber + '/' + valorASerMandado)
     }
 }
