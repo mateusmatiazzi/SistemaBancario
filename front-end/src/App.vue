@@ -41,13 +41,13 @@
 
             <td>{{ cliente.nomeDoResponsavel }}</td>
             <td>{{ cliente.numeroDaConta }}</td>
-            <td>{{ cliente.saldo }}</td>
+            <td>R$ {{ cliente.saldo }}</td>
             <td>
               <button @click="depositar(cliente.numeroDaConta, valorASerMovimentado)" class="waves-effect btn-small green darken-1">Depositar</button>
               <button @click="sacar(cliente.numeroDaConta, valorASerMovimentado)" class="waves-effect btn-small blue darken-1">Sacar</button>
               <button @click="transferir(cliente.numeroDaConta, numeroDaContaBeneficiada, valorASerMovimentado)" class="waves-effect btn-small coral darken-1">Transferir</button>
               <button @click="deletar(cliente.numeroDaConta)" class="waves-effect btn-small red darken-1">Deletar</button>
-              <input type="text" v-if="mostraInputDeMovimentacao" v-model="valorASerMovimentado" placeholder="Valor a ser Depositado">
+              <input type="text" v-if="mostraInputDeMovimentacao" v-model="valorASerMovimentado" placeholder="Valor a ser Processado">
               <input type="text" v-if="mostrarInputDeTransferencia" v-model="numeroDaContaBeneficiada" placeholder="Número da conta beneficiada">
             </td>
           </tr>
@@ -120,7 +120,7 @@ export default {
 
     adicionarCliente(cliente){
           Cliente.adicionarCliente(cliente).then(() => {
-            this.cliente = {}
+            this.clienteASerCadastrado = {}
             alert('Cadastrado com sucesso!')
             this.listar()
             }).catch( e => console.log(e))

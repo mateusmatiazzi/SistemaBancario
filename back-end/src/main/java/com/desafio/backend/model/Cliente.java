@@ -1,6 +1,10 @@
 package com.desafio.backend.model;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Cliente {
@@ -12,31 +16,37 @@ public class Cliente {
     private int numeroDaConta;
     private String nomeDoResponsavel;
     private int saldo;
-    //@OneToOne(cascade= CascadeType.PERSIST)
-    //private Extrato extrato;
 
+    @ElementCollection
+    @CollectionTable(name = "extrato_clientes", joinColumns = @JoinColumn(name = "cliente_id"))
+    @Column(name = "extrato")
+    private Set<String> extrato = new HashSet<>();
 
     protected Cliente() {
     }
 
     public void realizarSaque(int valorASerSacado){
         saldo -= valorASerSacado;
-        //extrato.adicionarSaque(valorASerSacado, numeroDaConta);
+        extrato.add(retornarDataAtual() + "/ Saque realizado no valor de: R$ " + valorASerSacado);
     }
 
     public void realizarDeposito(int valorASerDepositado){
         saldo += valorASerDepositado;
-        //extrato.adicionarDeposito(valorASerDepositado, numeroDaConta);
+        extrato.add(retornarDataAtual() + "/ Deposito realizado no valor de: R$ " + valorASerDepositado);
     }
 
     public void realizarTransferencia(int valorASerTransferido, int contaDestino){
         saldo -= valorASerTransferido;
-        //extrato.adicionarTransferencia(valorASerTransferido, numeroDaConta, contaDestino);
+        extrato.add(retornarDataAtual() + "/ Transferência realizada no valor de: R$ " + valorASerTransferido + " para: " + contaDestino);
     }
 
     public void receberTransferencia(int valorASerTransferido, int contaProvedora){
         saldo += valorASerTransferido;
-        //extrato.adicionarTransferencia(valorASerTransferido, contaProvedora, numeroDaConta);
+        extrato.add(retornarDataAtual() + "/ Transferência recebida no valor de: R$ " + valorASerTransferido + " de: " + contaProvedora);
+    }
+
+    public String retornarDataAtual(){
+        return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
     }
 
     public Long getId() {
@@ -69,5 +79,13 @@ public class Cliente {
 
     public void setSaldo(int saldo) {
         this.saldo = saldo;
+    }
+
+    public Set<String> getExtrato() {
+        return extrato;
+    }
+
+    public void setExtrato(Set<String> extrato) {
+        this.extrato = extrato;
     }
 }
