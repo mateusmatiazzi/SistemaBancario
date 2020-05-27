@@ -51,7 +51,7 @@
               <input type="text" v-if="mostraInputDeMovimentacao" v-model="valorASerMovimentado" placeholder="Valor a ser Processado">
               <input type="text" v-if="mostrarInputDeTransferencia" v-model="numeroDaContaBeneficiada" placeholder="Número da conta beneficiada">
               <ul v-if="clienteQuerVerExtrato">
-                <li v-for="operacao in cliente.extrato" :key="operacao">{{operacao}}</li>
+                <div class="pre-formatted">{{ extrato }}</div>
               </ul>
             </td>
           </tr>
@@ -78,6 +78,7 @@ export default {
         numeroDaConta: ''
       },
       clientes: [],
+      extrato: '',
       valorASerMovimentado: null,
       numeroDaContaBeneficiada: null,
       mostraInputDeMovimentacao: false,
@@ -140,7 +141,9 @@ export default {
       if(this.clienteQuerVerExtrato === false){
         this.listarContas()
       }
-      Cliente.mostrarExtrato(numeroDaConta).then(this.mostrarSomenteUmCliente(numeroDaConta)).catch(e => console.log(e))
+      this.mostrarSomenteUmCliente(numeroDaConta)
+      Cliente.mostrarExtrato(numeroDaConta).then(resposta => this.extrato=resposta.data).catch(e => console.log(e))
+      console.log(this.extrato)
     },
 
     mostrarSomenteUmCliente(numeroDaConta){
@@ -158,5 +161,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.pre-formatted {
+  white-space: pre;
 }
 </style>
