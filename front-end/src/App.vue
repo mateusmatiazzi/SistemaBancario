@@ -46,9 +46,13 @@
               <button @click="realizarDeposito(cliente.numeroDaConta, valorASerMovimentado)" class="waves-effect btn-small green darken-1">Depositar</button>
               <button @click="realizarSaque(cliente.numeroDaConta, valorASerMovimentado)" class="waves-effect btn-small blue darken-1">Sacar</button>
               <button @click="realizarTransferencia(cliente.numeroDaConta, numeroDaContaBeneficiada, valorASerMovimentado)" class="waves-effect btn-small coral darken-1">Transferir</button>
+              <button @click="mostrarExtrato(cliente.numeroDaConta)" class="waves-effect btn-small brown darken-1">Extrato</button>
               <button @click="deletarConta(cliente.numeroDaConta)" class="waves-effect btn-small red darken-1">Deletar</button>
               <input type="text" v-if="mostraInputDeMovimentacao" v-model="valorASerMovimentado" placeholder="Valor a ser Processado">
               <input type="text" v-if="mostrarInputDeTransferencia" v-model="numeroDaContaBeneficiada" placeholder="Número da conta beneficiada">
+              <ul v-if="clienteQuerVerExtrato">
+                <li v-for="operacao in cliente.extrato" :key="operacao">{{operacao}}</li>
+              </ul>
             </td>
           </tr>
 
@@ -77,7 +81,8 @@ export default {
       valorASerMovimentado: null,
       numeroDaContaBeneficiada: null,
       mostraInputDeMovimentacao: false,
-      mostrarInputDeTransferencia: false
+      mostrarInputDeTransferencia: false,
+      clienteQuerVerExtrato: false
     }
   },
 
@@ -124,6 +129,18 @@ export default {
             alert('Cadastrado com sucesso!')
             this.listarContas()
             }).catch( e => console.log(e))
+    },
+
+    mostrarExtrato(numeroDaConta){
+      this.clienteQuerVerExtrato = !this.clienteQuerVerExtrato
+      if(this.clienteQuerVerExtrato === false){
+        this.listarContas()
+      }
+      Cliente.mostrarExtrato(numeroDaConta).then(this.mostrarSomenteUmCliente(numeroDaConta)).catch(e => console.log(e))
+    },
+
+    mostrarSomenteUmCliente(numeroDaConta){
+      this.clientes = [this.clientes.find((cliente) => cliente.numeroDaConta === numeroDaConta)]
     }
   }
 }
