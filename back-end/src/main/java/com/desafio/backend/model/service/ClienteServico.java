@@ -42,6 +42,10 @@ public class ClienteServico {
         Set<String> extrato = cliente.getExtrato();
         String extratoCompleto = "";
 
+        if(extrato.isEmpty()){
+            extratoCompleto = "Nenhuma operação realizada nessa conta.";
+        }
+
         for(String operacao: extrato){
             extratoCompleto += operacao + "\n";
         }

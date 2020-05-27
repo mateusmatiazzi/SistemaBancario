@@ -105,12 +105,14 @@ export default {
 
     realizarDeposito(numeroDaConta, valorASerDepositado){
       this.mostraInputDeMovimentacao = !this.mostraInputDeMovimentacao
+      this.mostrarSomenteUmCliente(numeroDaConta)
       Cliente.realizarDeposito(numeroDaConta, valorASerDepositado).then(() => {this.listarContas()}).catch(e => console.log(e))
       this.valorASerMovimentado = null
     },
 
     realizarSaque(numeroDaConta, valorASerSacado){
       this.mostraInputDeMovimentacao = !this.mostraInputDeMovimentacao
+      this.mostrarSomenteUmCliente(numeroDaConta)
       Cliente.realizarSaque(numeroDaConta, valorASerSacado).then(() => {this.listarContas()}).catch(e => console.log(e))
       this.valorASerMovimentado = null
     },
@@ -118,9 +120,10 @@ export default {
     realizarTransferencia(numeroDaContaATransferir, numeroDaContaAReceber, valorASerMandado){
       this.mostraInputDeMovimentacao = !this.mostraInputDeMovimentacao
       this.mostrarInputDeTransferencia = !this.mostrarInputDeTransferencia
+      this.mostrarSomenteUmCliente(numeroDaContaATransferir)
       Cliente.realizarTransferencia(numeroDaContaATransferir, numeroDaContaAReceber, valorASerMandado).then(() => {this.listarContas()}).catch(e=>console.log(e))
-      this.valorASerMovimentado = null
       this.numeroDaContaBeneficiada = null
+      this.valorASerMovimentado = null
     },
 
     adicionarCliente(cliente){
@@ -132,6 +135,7 @@ export default {
     },
 
     mostrarExtrato(numeroDaConta){
+      this.botaoDeOperacaoPressionado = true
       this.clienteQuerVerExtrato = !this.clienteQuerVerExtrato
       if(this.clienteQuerVerExtrato === false){
         this.listarContas()
