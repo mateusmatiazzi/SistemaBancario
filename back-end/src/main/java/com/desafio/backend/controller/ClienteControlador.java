@@ -63,6 +63,11 @@ public class ClienteControlador {
         return clienteServico.findAll();
     }
 
+    @GetMapping("/extrato/{numeroDaConta}")
+    public ResponseEntity<?> retornarExtratoDoCliente(@PathVariable int numeroDaConta){
+        return new ResponseEntity<String>(clienteServico.retornarExtratoDoCliente(numeroDaConta), HttpStatus.OK);
+    }
+
     @GetMapping("/{numeroDaConta}")
     public ResponseEntity<?> encontrarClientePorNumeroDaConta(@PathVariable int numeroDaConta) {
         Cliente cliente = clienteServico.encontrarClientePelaConta(numeroDaConta);

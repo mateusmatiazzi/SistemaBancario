@@ -5,6 +5,9 @@ import com.desafio.backend.model.repository.ClienteRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 public class ClienteServico {
 
@@ -32,6 +35,17 @@ public class ClienteServico {
 
         salvarDadosDoCliente(clienteATransferir);
         salvarDadosDoCliente(clienteAReceber);
+    }
+
+    public String retornarExtratoDoCliente(int numeroDaConta){
+        Cliente cliente = encontrarClientePelaConta(numeroDaConta);
+        Set<String> extrato = cliente.getExtrato();
+        String extratoCompleto = "";
+
+        for(String operacao: extrato){
+            extratoCompleto += operacao + "\n";
+        }
+        return extratoCompleto;
     }
 
     public Iterable<Cliente> findAll() {
