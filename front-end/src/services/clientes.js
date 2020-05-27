@@ -1,27 +1,31 @@
 import { http } from './config'
 
 export default	{
-    listar:()=>{
+    listarContas:()=>{
 		return http.get('todosClientes')
     },
 
-    deletar:(numeroDaConta)=>{
+    deletarConta:(numeroDaConta)=>{
         return http.delete('/' + numeroDaConta)
     },
 
-    depositar:(numeroDaConta, valorASerDepositado)=>{
+    realizarDeposito:(numeroDaConta, valorASerDepositado)=>{
         return http.post('/' + numeroDaConta + '+' + valorASerDepositado)
     },
 
-    sacar:(numeroDaConta, valorASerSacado) => {
+    realizarSaque:(numeroDaConta, valorASerSacado) => {
         return http.post('/' + numeroDaConta + '-' + valorASerSacado)
     },
 
-    transferir:(numeroDaContaATransferir, numeroDaContaAReceber, valorASerMandado)=>{
+    realizarTransferencia:(numeroDaContaATransferir, numeroDaContaAReceber, valorASerMandado)=>{
         return http.post('/' + numeroDaContaATransferir + '/' + numeroDaContaAReceber + '/' + valorASerMandado)
     },
 
     adicionarCliente:(cliente)=>{
         return http.post('/', cliente)
+    },
+
+    mostrarExtrato:(numeroDaConta)=>{
+        return http.get('/extrato/'+numeroDaConta);
     }
 }

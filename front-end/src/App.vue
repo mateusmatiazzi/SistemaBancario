@@ -43,10 +43,10 @@
             <td>{{ cliente.numeroDaConta }}</td>
             <td>R$ {{ cliente.saldo }}</td>
             <td>
-              <button @click="depositar(cliente.numeroDaConta, valorASerMovimentado)" class="waves-effect btn-small green darken-1">Depositar</button>
-              <button @click="sacar(cliente.numeroDaConta, valorASerMovimentado)" class="waves-effect btn-small blue darken-1">Sacar</button>
-              <button @click="transferir(cliente.numeroDaConta, numeroDaContaBeneficiada, valorASerMovimentado)" class="waves-effect btn-small coral darken-1">Transferir</button>
-              <button @click="deletar(cliente.numeroDaConta)" class="waves-effect btn-small red darken-1">Deletar</button>
+              <button @click="realizarDeposito(cliente.numeroDaConta, valorASerMovimentado)" class="waves-effect btn-small green darken-1">Depositar</button>
+              <button @click="realizarSaque(cliente.numeroDaConta, valorASerMovimentado)" class="waves-effect btn-small blue darken-1">Sacar</button>
+              <button @click="realizarTransferencia(cliente.numeroDaConta, numeroDaContaBeneficiada, valorASerMovimentado)" class="waves-effect btn-small coral darken-1">Transferir</button>
+              <button @click="deletarConta(cliente.numeroDaConta)" class="waves-effect btn-small red darken-1">Deletar</button>
               <input type="text" v-if="mostraInputDeMovimentacao" v-model="valorASerMovimentado" placeholder="Valor a ser Processado">
               <input type="text" v-if="mostrarInputDeTransferencia" v-model="numeroDaContaBeneficiada" placeholder="Número da conta beneficiada">
             </td>
@@ -82,38 +82,38 @@ export default {
   },
 
   mounted(){
-    this.listar()
+    this.listarContas()
   },
 
   methods:{
 
-    listar(){
-      Cliente.listar().then(resposta => {this.clientes = resposta.data})
+    listarContas(){
+      Cliente.listarContas().then(resposta => {this.clientes = resposta.data})
       .catch(e => console.log(e))
     }, 
 
-    deletar(numeroDaConta){
+    deletarConta(numeroDaConta){
       if(confirm('Deseja excluir a conta ?')){
-        Cliente.deletar(numeroDaConta).then(() => {this.listar()}).catch( e => console.log(e))
+        Cliente.deletarConta(numeroDaConta).then(() => {this.listarContas()}).catch( e => console.log(e))
       }
     },
 
-    depositar(numeroDaConta, valorASerDepositado){
+    realizarDeposito(numeroDaConta, valorASerDepositado){
       this.mostraInputDeMovimentacao = !this.mostraInputDeMovimentacao
-      Cliente.depositar(numeroDaConta, valorASerDepositado).then(() => {this.listar()}).catch(e => console.log(e))
+      Cliente.realizarDeposito(numeroDaConta, valorASerDepositado).then(() => {this.listarContas()}).catch(e => console.log(e))
       this.valorASerMovimentado = null
     },
 
-    sacar(numeroDaConta, valorASerSacado){
+    realizarSaque(numeroDaConta, valorASerSacado){
       this.mostraInputDeMovimentacao = !this.mostraInputDeMovimentacao
-      Cliente.sacar(numeroDaConta, valorASerSacado).then(() => {this.listar()}).catch(e => console.log(e))
+      Cliente.realizarSaque(numeroDaConta, valorASerSacado).then(() => {this.listarContas()}).catch(e => console.log(e))
       this.valorASerMovimentado = null
     },
 
-    transferir(numeroDaContaATransferir, numeroDaContaAReceber, valorASerMandado){
+    realizarTransferencia(numeroDaContaATransferir, numeroDaContaAReceber, valorASerMandado){
       this.mostraInputDeMovimentacao = !this.mostraInputDeMovimentacao
       this.mostrarInputDeTransferencia = !this.mostrarInputDeTransferencia
-      Cliente.transferir(numeroDaContaATransferir, numeroDaContaAReceber, valorASerMandado).then(() => {this.listar()}).catch(e=>console.log(e))
+      Cliente.realizarTransferencia(numeroDaContaATransferir, numeroDaContaAReceber, valorASerMandado).then(() => {this.listarContas()}).catch(e=>console.log(e))
       this.valorASerMovimentado = null
       this.numeroDaContaBeneficiada = null
     },
@@ -122,7 +122,7 @@ export default {
           Cliente.adicionarCliente(cliente).then(() => {
             this.clienteASerCadastrado = {}
             alert('Cadastrado com sucesso!')
-            this.listar()
+            this.listarContas()
             }).catch( e => console.log(e))
     }
   }
